@@ -1,6 +1,11 @@
 # deep-vision-4u
 A program for manipulating your video streams
 
+# Project structure
+
+- **deep-vision-4u.py**: script for main application script using the dddpy package
+- **dddpy**: package implementing a video processing framework
+  - **dddpy-example.py**: script for an example application script using the dddpy package
 
 # Dependencies
 
