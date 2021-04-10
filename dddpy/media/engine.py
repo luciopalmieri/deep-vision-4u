@@ -51,7 +51,8 @@ class DMediaEngine:
 
         for video_proc_dict in self.__video_proc_list:
             toggle_key = video_proc_dict['toggle_key']
-            print(f"- use '{video_proc_dict['toggle_key']}' to activate/deactivate the {video_proc_dict['video_proc']}")
+            video_proc = video_proc_dict['video_proc']
+            print(f"- use '{toggle_key}' to activate/deactivate the {video_proc}")
 
     def __toggle_processor_by_keyboard(self, key_code):
         for video_proc_dict in self.__video_proc_list:
@@ -80,7 +81,9 @@ class DMediaEngine:
 
         def __process_frame(self, frame):
             for video_proc_dict in self.__video_proc_list:
-                if video_proc_dict['active']:
-                    frame = video_proc_dict['video_proc'].process(frame)
+                active = video_proc_dict['active']
+                video_proc = video_proc_dict['video_proc']
+                video_proc.activate = active
+                frame = video_proc.process(frame)
 
             return frame
