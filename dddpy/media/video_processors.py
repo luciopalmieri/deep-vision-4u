@@ -25,6 +25,13 @@ class DVideoProcFreeze(DVideoProc):
         super().__init__()
         self.__frame = None
 
+
+class DVideoProcFreeze(DVideoProc):
+
+    def __init__(self):
+        super().__init__()
+        self.__frame = None
+
     def __str__(self):
         return "Freeze Video Processor"
 
