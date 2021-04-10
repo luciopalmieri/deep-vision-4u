@@ -4,7 +4,7 @@ from dddpy.media.video_processors import DVideoProcGrayscale
 
 def main():
 
-    media_engine = DMediaEngine()
+    media_engine = DMediaEngine(close_key='q')
 
     # add_video_processor return the id(video_proc_dict) that can be used to programmatically toggle the processor
     #   activation without using the toggle_key
@@ -13,9 +13,10 @@ def main():
     try:
 
         media_engine.open_webcam()
+        media_engine.print_command_keys()
 
         for frame in media_engine.frames():
-            if not media_engine.show(frame, window_name='deep-vision-4u', close_key='q'):
+            if not media_engine.show(frame, window_name='deep-vision-4u'):
                 break
 
     except AssertionError as ex:

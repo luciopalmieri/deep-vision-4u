@@ -3,8 +3,9 @@ import cv2
 
 class DMediaEngine:
 
-    def __init__(self):
+    def __init__(self, close_key='q'):
         self.__video_cap = None
+        self.__close_key = close_key
         self.__video_proc_list = []
 
     def add_video_processor(self, video_proc, toggle_key=None):
@@ -33,16 +34,24 @@ class DMediaEngine:
             self.__video_cap.release()
         cv2.destroyAllWindows()
 
-    def show(self, frame, window_name='dddpy.media', close_key='q'):
+    def show(self, frame, window_name='dddpy.media'):
         cv2.imshow(window_name, frame)
 
         key_code = cv2.waitKey(1)
-        if key_code == ord(close_key):
+        if key_code == ord(self.__close_key):
             return False
 
         self.__toggle_processor_by_keyboard(key_code)
 
         return True
+
+    def print_command_keys(self):
+        print('\n')
+        print(f"- use '{self.__close_key}' to close the application")
+
+        for video_proc_dict in self.__video_proc_list:
+            toggle_key = video_proc_dict['toggle_key']
+            print(f"- use '{video_proc_dict['toggle_key']}' to activate/deactivate the {video_proc_dict['video_proc']}")
 
     def __toggle_processor_by_keyboard(self, key_code):
         for video_proc_dict in self.__video_proc_list:
