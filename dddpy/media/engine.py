@@ -1,12 +1,16 @@
 import cv2
+import pyvirtualcam
 
 
 class DMediaEngine:
 
     def __init__(self, close_key='q'):
         self.__video_cap = None
+        self.__video_cap_width = None
+        self.__video_cap_height = None
         self.__close_key = close_key
         self.__video_proc_list = []
+        self.__virtual_cam = None
 
     def add_video_proc(self, video_proc, toggle_key=None):
 
@@ -35,8 +39,25 @@ class DMediaEngine:
 
     def open_webcam(self):
         self.__video_cap = cv2.VideoCapture(0)
-        ret, _ = self.__video_cap.read()
+        ret, frame = self.__video_cap.read()
         assert ret, "WebCam not available"
+        self.__video_cap_width = frame.shape[1]
+        self.__video_cap_height = frame.shape[0]
+
+    def virtual_cam_set(self, width=None, height=None, fps=15.0):
+        width = width or self.__video_cap_width
+        height = height or self.__video_cap_height
+
+        if not width == self.__video_cap_width or not height == self.__video_cap_height:
+            raise Exception("TODO Resize video capture frames size to virtual cam frames size")
+            pass
+
+        self.__virtual_cam = pyvirtualcam.Camera(width=width, height=height, fps=fps)
+
+    def virtual_cam_send(self, frame):
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        self.__virtual_cam.send(frame)
+        self.__virtual_cam.sleep_until_next_frame()
 
     def frames(self):
         return self.__FramesIterator(self.__video_cap, self.__video_proc_list)
