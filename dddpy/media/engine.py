@@ -5,6 +5,20 @@ class DMediaEngine:
 
     def __init__(self):
         self.__video_cap = None
+        self.__video_proc_list = []
+
+    def add_video_processor(self, video_proc, toggle_key=None):
+        video_proc_dict = {
+            'video_proc': video_proc,
+            'active': False
+        }
+
+        if toggle_key:
+            video_proc_dict['toggle_key'] = toggle_key
+
+        self.__video_proc_list.append(video_proc_dict)
+
+        return id(video_proc_dict)
 
     def open_webcam(self):
         self.__video_cap = cv2.VideoCapture(0)
@@ -12,34 +26,52 @@ class DMediaEngine:
         assert ret, "WebCam not available"
 
     def frames(self):
-        return DFramesIterator(self.__video_cap)
+        return self.__FramesIterator(self.__video_cap, self.__video_proc_list)
 
     def release(self):
         if self.__video_cap:
             self.__video_cap.release()
         cv2.destroyAllWindows()
 
-    @staticmethod
-    def show(frame, window_name='dddpy.media', close_key='q'):
+    def show(self, frame, window_name='dddpy.media', close_key='q'):
         cv2.imshow(window_name, frame)
-        k = cv2.waitKey(1)
-        if k == ord(close_key):
+
+        key_code = cv2.waitKey(1)
+        if key_code == ord(close_key):
             return False
+
+        self.__toggle_processor_by_keyboard(key_code)
+
         return True
 
+    def __toggle_processor_by_keyboard(self, key_code):
+        for video_proc_dict in self.__video_proc_list:
+            toggle_key = video_proc_dict['toggle_key']
+            if toggle_key and key_code == ord(toggle_key):
+                video_proc_dict['active'] = not video_proc_dict['active']
+                break
 
-class DFramesIterator:
+    class __FramesIterator:
 
-    def __init__(self, video_capture):
-        self.__video_cap = video_capture
+        def __init__(self, video_capture, video_proc_list):
+            self.__video_cap = video_capture
+            self.__video_proc_list = video_proc_list
 
-    def __iter__(self):
-        return self
+        def __iter__(self):
+            return self
 
-    def __next__(self):
-        if not self.__video_cap.isOpened():
-            raise StopIteration
+        def __next__(self):
+            if not self.__video_cap.isOpened():
+                raise StopIteration
 
-        _, frame = self.__video_cap.read()
+            _, frame = self.__video_cap.read()
+            frame = self.__process_frame(frame)
 
-        return frame
+            return frame
+
+        def __process_frame(self, frame):
+            for video_proc_dict in self.__video_proc_list:
+                if video_proc_dict['active']:
+                    frame = video_proc_dict['video_proc'].process(frame)
+
+            return frame
