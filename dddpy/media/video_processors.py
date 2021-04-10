@@ -18,18 +18,6 @@ class DVideoProc:
         raise Exception("DVideoProc is an Abstract Interface")
 
 
-class DVideoProcGrayscale(DVideoProc):
-
-    def __str__(self):
-        return "Grayscale Video Processor"
-
-    def process(self, frame):
-        if not self.activate:
-            return frame
-
-        return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-
 class DVideoProcFreeze(DVideoProc):
 
     def __init__(self):
@@ -44,3 +32,15 @@ class DVideoProcFreeze(DVideoProc):
             self.__frame = frame
 
         return self.__frame
+
+
+class DVideoProcGrayscale(DVideoProc):
+
+    def __str__(self):
+        return "Grayscale Video Processor"
+
+    def process(self, frame):
+        if not self.activate:
+            return frame
+
+        return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
