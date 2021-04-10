@@ -8,7 +8,19 @@ class DMediaEngine:
         self.__close_key = close_key
         self.__video_proc_list = []
 
-    def add_video_processor(self, video_proc, toggle_key=None):
+    def add_video_proc(self, video_proc, toggle_key=None):
+
+        """
+
+        Add a Video Processor.
+
+        :param video_proc: a DVideoProc subclass
+        :param toggle_key: a keyboard key to activate/deactivate the processor when you use show()
+        :return: video_proc_dict id (eg. use it to activate/deactivate the processor when you don't use show()
+                 and toggle_key)
+
+        """
+
         video_proc_dict = {
             'video_proc': video_proc,
             'active': False

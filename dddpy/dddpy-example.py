@@ -1,17 +1,17 @@
 from dddpy.media.engine import DMediaEngine
 
-from dddpy.media.video_processors import DVideoProcGrayscale
 from dddpy.media.video_processors import DVideoProcFreeze
+from dddpy.media.video_processors import DVideoProcGrayscale
+from dddpy.media.video_processors import DVideoProcDateTime
 
 
 def main():
 
     media_engine = DMediaEngine(close_key='q')
 
-    # add_video_processor return the id(video_proc_dict) that can be used to programmatically toggle the processor
-    #   activation without using the toggle_key
-    media_engine.add_video_processor(DVideoProcFreeze(), toggle_key='f')
-    media_engine.add_video_processor(DVideoProcGrayscale(), toggle_key='b')
+    media_engine.add_video_proc(DVideoProcFreeze(), toggle_key='f')
+    media_engine.add_video_proc(DVideoProcGrayscale(), toggle_key='b')
+    media_engine.add_video_proc(DVideoProcDateTime("%d/%m/%Y %H:%M:%S"), toggle_key='t')
 
     try:
 
