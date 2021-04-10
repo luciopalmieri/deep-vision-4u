@@ -8,7 +8,7 @@ class DMediaEngine:
         self.__close_key = close_key
         self.__video_proc_list = []
 
-    def add_video_processor(self, video_proc, toggle_key=None):
+    def add_video_proc(self, video_proc, toggle_key=None):
 
         """
 
