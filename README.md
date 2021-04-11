@@ -48,6 +48,30 @@ sudo modprobe -r  v4l2loopback
 
 # Technical Notes
 
+## Managing anaconda environment
+
+[Reference](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
+
+**Export deep-vision-4u environment in environment.yml**
+
+```bash
+conda activate deep-vision-4u
+conda env export > environment.yml
+```
+
+**Remove deep-vision-4u environment**
+
+```bash
+conda remove --name deep-vision-4u --all
+```
+
+**Create environment from the environment.yml** and list all environments
+
+```bash
+conda env create -f environment.yml
+conda env list
+```
+
 ## Install OpenCV and pyvirtualcam on Ubuntu 18.04 LTS
 
 ```
