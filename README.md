@@ -1,5 +1,10 @@
 # deep-vision-4u
-A program for manipulating your video streams
+
+A program for manipulating your video streams.
+
+Compose your visual effects and send them to a virtual camera, then open the virtual camera from other programs such as Google Meet.
+
+Enjoy it!
 
 # Project structure
 
@@ -35,13 +40,44 @@ sudo modprobe v4l2loopback devices=1 exclusive_caps=1,1 video_nr=5 card_label="d
 v4l2-ctl --list-devices -d5
 ```
 
+to remove virtual cam
+
+```bash
+sudo modprobe -r  v4l2loopback
+```
+
 # Technical Notes
 
-## Install OpenCV on Ubuntu 18.04 LTS
+## Managing anaconda environment
+
+[Reference](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
+
+**Export deep-vision-4u environment in environment.yml**
+
+```bash
+conda activate deep-vision-4u
+conda env export > environment.yml
+```
+
+**Remove deep-vision-4u environment**
+
+```bash
+conda remove --name deep-vision-4u --all
+```
+
+**Create environment from the environment.yml** and list all environments
+
+```bash
+conda env create -f environment.yml
+conda env list
+```
+
+## Install OpenCV and pyvirtualcam on Ubuntu 18.04 LTS
 
 ```
 conda activate deep-vision-4u
 conda install pip
 
 pip3 install -I opencv-contrib-python
+pip3 install pyvirtualcam
 ```
