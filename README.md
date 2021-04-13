@@ -81,3 +81,10 @@ conda install pip
 pip3 install -I opencv-contrib-python
 pip3 install pyvirtualcam
 ```
+
+## Create EXE
+
+```
+pip3 install pyinstaller
+pip3 install auto-py-to-exe
+```
