@@ -56,7 +56,7 @@ sudo modprobe -r v4l2loopback
 
 ```bash
 conda activate deep-vision-4u
-conda env export > environment.yml
+conda env export > env_ubuntu_18_04.yml
 ```
 
 **Remove deep-vision-4u environment**
@@ -72,7 +72,7 @@ conda env create -f environment.yml
 conda env list
 ```
 
-## Install OpenCV and pyvirtualcam on Ubuntu 18.04 LTS
+## Install OpenCV and pyvirtualcam on Win & Ubuntu 18.04 LTS
 
 ```
 conda activate deep-vision-4u
