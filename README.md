@@ -43,7 +43,7 @@ v4l2-ctl --list-devices -d5
 to remove virtual cam
 
 ```bash
-sudo modprobe -r  v4l2loopback
+sudo modprobe -r v4l2loopback
 ```
 
 # Technical Notes
