@@ -13,12 +13,15 @@ def main():
     media_engine.add_video_proc(DVideoProcGrayscale(), toggle_key='b')
     media_engine.add_video_proc(DVideoProcDateTime("%d/%m/%Y %H:%M:%S"), toggle_key='t')
 
+    media_engine.print_command_keys()
+
     try:
 
         media_engine.open_webcam()
-        media_engine.print_command_keys()
+        media_engine.virtual_cam_set()
 
         for frame in media_engine.frames():
+            media_engine.virtual_cam_send(frame)
             if not media_engine.show(frame, window_name='deep-vision-4u'):
                 break
 
