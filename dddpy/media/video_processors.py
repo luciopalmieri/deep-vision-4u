@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from datetime import datetime
 
 
@@ -11,11 +12,28 @@ class DVideoProc:
     def activate(self):
         return self.__activate
 
+
+class DVideoProcFlip(DVideoProc):
+
+    VERTICAL = 0
+    HORIZONTAL = 1
+
+    def __init__(self, direction: int):
+        super().__init__()
+        self.__direction = direction
+
+    def process(self, frame: np.ndarray) -> np.ndarray:
+        if not self.activate:
+            return frame
+
+        frame = cv2.flip(frame, self.__direction)
+        return frame
+
     @activate.setter
-    def activate(self, activate):
+    def activate(self, activate: bool):
         self.__activate = activate
 
-    def process(self, frame):
+    def process(self, frame: np.ndarray) -> np.ndarray:
         raise Exception("DVideoProc is an Abstract Interface")
 
 
@@ -25,17 +43,10 @@ class DVideoProcFreeze(DVideoProc):
         super().__init__()
         self.__frame = None
 
-
-class DVideoProcFreeze(DVideoProc):
-
-    def __init__(self):
-        super().__init__()
-        self.__frame = None
-
-    def __str__(self):
+    def __str__(self) -> str:
         return "Freeze Video Processor"
 
-    def process(self, frame):
+    def process(self, frame: np.ndarray) -> np.ndarray:
         if not self.activate:
             self.__frame = frame
 
@@ -47,7 +58,7 @@ class DVideoProcGrayscale(DVideoProc):
     def __str__(self):
         return "Grayscale Video Processor"
 
-    def process(self, frame):
+    def process(self, frame: np.ndarray) -> np.ndarray:
         if not self.activate:
             return frame
 
@@ -65,7 +76,7 @@ class DVideoProcDateTime(DVideoProc):
     def __str__(self):
         return "Date/Time Video Processor"
 
-    def process(self, frame):
+    def process(self, frame: np.ndarray) -> np.ndarray:
         if not self.activate:
             return frame
 
@@ -73,4 +84,21 @@ class DVideoProcDateTime(DVideoProc):
         str_now = now.strftime(self.__date_time_fmt)
         cv2.putText(frame, str_now, (20, frame.shape[0] - 20), cv2.FONT_HERSHEY_PLAIN, 1.5, (255, 255, 255), 2)
 
+        return frame
+
+
+class DVideoProcFlip(DVideoProc):
+
+    VERTICAL = 0
+    HORIZONTAL = 1
+
+    def __init__(self, direction: int):
+        super().__init__()
+        self.__direction = direction
+
+    def process(self, frame: np.ndarray) -> np.ndarray:
+        if not self.activate:
+            return frame
+
+        frame = cv2.flip(frame, self.__direction)
         return frame
