@@ -1,10 +1,12 @@
 import cv2
 import pyvirtualcam
+import numpy as np
+from dddpy.media.video_processors import DVideoProc
 
 
 class DMediaEngine:
 
-    def __init__(self, close_key='q'):
+    def __init__(self, close_key: str = 'q'):
         self.__video_cap = None
         self.__video_cap_width = None
         self.__video_cap_height = None
@@ -12,7 +14,7 @@ class DMediaEngine:
         self.__video_proc_list = []
         self.__virtual_cam = None
 
-    def add_video_proc(self, video_proc, toggle_key=None):
+    def add_video_proc(self, video_proc: DVideoProc, toggle_key: str = None) -> int:
 
         """
 
@@ -44,7 +46,7 @@ class DMediaEngine:
         self.__video_cap_width = frame.shape[1]
         self.__video_cap_height = frame.shape[0]
 
-    def virtual_cam_set(self, width=None, height=None, fps=15.0):
+    def virtual_cam_set(self, width: float = None, height: float = None, fps: float = 15.0):
         width = width or self.__video_cap_width
         height = height or self.__video_cap_height
 
@@ -54,7 +56,7 @@ class DMediaEngine:
 
         self.__virtual_cam = pyvirtualcam.Camera(width=width, height=height, fps=fps)
 
-    def virtual_cam_send(self, frame):
+    def virtual_cam_send(self, frame: np.ndarray):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         self.__virtual_cam.send(frame)
         self.__virtual_cam.sleep_until_next_frame()
@@ -67,7 +69,7 @@ class DMediaEngine:
             self.__video_cap.release()
         cv2.destroyAllWindows()
 
-    def show(self, frame, window_name='dddpy.media'):
+    def show(self, frame: np.ndarray, window_name: str = 'dddpy.media') -> bool:
         cv2.imshow(window_name, frame)
 
         key_code = cv2.waitKey(1)
@@ -87,7 +89,7 @@ class DMediaEngine:
             video_proc = video_proc_dict['video_proc']
             print(f"- use '{toggle_key}' to activate/deactivate the {video_proc}")
 
-    def __toggle_processor_by_keyboard(self, key_code):
+    def __toggle_processor_by_keyboard(self, key_code: str):
         for video_proc_dict in self.__video_proc_list:
             toggle_key = video_proc_dict['toggle_key']
             if toggle_key and key_code == ord(toggle_key):
