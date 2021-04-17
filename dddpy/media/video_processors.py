@@ -12,6 +12,10 @@ class DVideoProc:
     def activate(self):
         return self.__activate
 
+    @activate.setter
+    def activate(self, activate: bool):
+        self.__activate = activate
+
 
 class DVideoProcFlip(DVideoProc):
 
@@ -28,10 +32,6 @@ class DVideoProcFlip(DVideoProc):
 
         frame = cv2.flip(frame, self.__direction)
         return frame
-
-    @activate.setter
-    def activate(self, activate: bool):
-        self.__activate = activate
 
     def process(self, frame: np.ndarray) -> np.ndarray:
         raise Exception("DVideoProc is an Abstract Interface")
